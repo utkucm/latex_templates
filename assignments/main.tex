@@ -1,0 +1,130 @@
+% ===================== Assignment Template =====================
+\documentclass[11pt]{article}
+
+% =========================
+% Core layout and language
+% =========================
+\usepackage[margin=1in]{geometry}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[english]{babel}
+\usepackage{lmodern}
+% \usepackage{microtype}
+
+% =========================
+% Math
+% =========================
+\usepackage{amsmath,amssymb,amsfonts,amsthm,mathtools,bm}
+\numberwithin{equation}{section}
+
+% =========================
+% Figures, tables, lists
+% =========================
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage{enumitem}
+\setlist[itemize]{topsep=2pt,itemsep=2pt,parsep=0pt}
+\setlist[enumerate]{topsep=2pt,itemsep=2pt,parsep=0pt}
+
+% =========================
+% Utilities
+% =========================
+\usepackage{environ}
+\usepackage{etoolbox}
+
+% =========================
+% Links (load hyperref, then cleveref)
+% =========================
+\usepackage[hidelinks,unicode]{hyperref}
+\usepackage[nameinlink,noabbrev]{cleveref}
+
+% =========================
+% Referencing
+% =========================
+\usepackage{apacite}
+
+% =========================
+% Metadata
+% =========================
+\newcommand{\coursename}{Course Name}
+\newcommand{\assignmenttitle}{Assignment \#}
+\newcommand{\studentname}{Author}
+\newcommand{\studentid}{ID}
+\newcommand{\duedate}{\today}
+
+\hypersetup{
+  pdftitle={\assignmenttitle},
+  pdfauthor={\studentname},
+  colorlinks=black, linkcolor=black, citecolor=black, urlcolor=black
+}
+
+
+% =========================
+% Math shortcuts
+% =========================
+\DeclarePairedDelimiter\abs{\lvert}{\rvert}
+\DeclarePairedDelimiter\norm{\lVert}{\rVert}
+\DeclarePairedDelimiter\set{\{}{\}}
+\DeclareMathOperator*{\argmin}{arg\,min}
+\DeclareMathOperator*{\argmax}{arg\,max}
+\DeclareMathOperator{\E}{\mathbb{E}}
+\DeclareMathOperator{\Var}{Var}
+\DeclareMathOperator{\Cov}{Cov}
+\DeclareMathOperator{\Prob}{\mathbb{P}}
+\DeclareMathOperator{\plim}{plim}
+\newcommand{\iid}{\stackrel{\text{iid}}{\sim}}
+\newcommand{\indep}{\mathrel{\perp\!\!\!\perp}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\1}{\mathbb{1}}
+
+% =========================
+% Theorem-like environments
+% =========================
+\numberwithin{equation}{section}
+
+\theoremstyle{plain}
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{corollary}[theorem]{Corollary}
+
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{question}[theorem]{Question}
+\newtheorem{problem}[theorem]{Problem}
+
+\theoremstyle{remark}
+\newtheorem*{solution}{Solution}
+\newtheorem*{answer}{Answer}
+
+
+% =========================
+% Title page macro
+% =========================
+\newcommand{\maketitlepage}{
+  \begin{titlepage}
+    \centering
+    \vspace*{4cm}
+    {\Huge \textbf{\coursename}}\par
+    \vspace{0.5cm}
+    {\LARGE \textbf{\assignmenttitle}}\par
+    \vfill
+    {\Large \studentname}\par
+    {\large ID: \studentid}\par
+    \vspace{0.3cm}
+    {\large \duedate}\par
+    \vspace*{2cm}
+  \end{titlepage}
+}
+
+% ===================== Document =====================
+\begin{document}
+
+\maketitlepage
+
+
+\newpage
+\bibliographystyle{apacite}
+\bibliography{references}
+\end{document}

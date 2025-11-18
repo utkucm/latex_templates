@@ -9,6 +9,8 @@
 \usepackage[T1]{fontenc}
 \usepackage[english]{babel}
 \usepackage{lmodern}
+\usepackage{parskip}
+\usepackage{float}
 % \usepackage{microtype}
 
 % =========================
@@ -118,13 +120,24 @@
   \end{titlepage}
 }
 
+\newtoggle{usedcites}
+\pretocmd{\cite}{\global\toggletrue{usedcites}}{}{}
+\pretocmd{\citet}{\global\toggletrue{usedcites}}{}{}
+\pretocmd{\citep}{\global\toggletrue{usedcites}}{}{}
+
+\AtEndDocument{
+	\iftoggle{usedcites}{
+		\newpage
+		\bibliographystyle{apacite}
+		\bibliography{references}
+	}
+}
+
 % ===================== Document =====================
 \begin{document}
 
 \maketitlepage
 
 
-\newpage
-\bibliographystyle{apacite}
-\bibliography{references}
+
 \end{document}

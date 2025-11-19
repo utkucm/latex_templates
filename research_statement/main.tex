@@ -1,0 +1,91 @@
+% ===================== Research Statement Template =====================
+\documentclass[11pt]{article}
+
+% =========================
+% Core layout and language
+% =========================
+\usepackage[margin=1in]{geometry}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[english]{babel}
+\usepackage{lmodern}
+\usepackage{parskip}
+\usepackage{float}
+% \usepackage{microtype}
+\usepackage{newtxtext}
+
+% =========================
+% Math
+% =========================
+\usepackage{amsmath,amssymb,amsfonts,amsthm,mathtools,bm}
+\numberwithin{equation}{section}
+
+% =========================
+% Figures, tables, lists
+% =========================
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage{enumitem}
+\setlist[itemize]{topsep=2pt,itemsep=2pt,parsep=0pt}
+\setlist[enumerate]{topsep=2pt,itemsep=2pt,parsep=0pt}
+
+% =========================
+% Utilities
+% =========================
+\usepackage{environ}
+\usepackage{etoolbox}
+
+% =========================
+% Links (load hyperref, then cleveref)
+% =========================
+\usepackage[hidelinks,unicode]{hyperref}
+\usepackage[nameinlink,noabbrev]{cleveref}
+
+% =========================
+% Referencing
+% =========================
+\usepackage{apacite}
+
+% =========================
+% Metadata
+% =========================
+\newcommand{\titletext}{Title Text}
+\newcommand{\authortext}{Author Name}
+\newcommand{\affiliation}{Affiliation}
+\newcommand{\datetext}{Month Year}
+
+
+\hypersetup{
+  pdftitle={\titletext},
+  pdfauthor={\authortext},
+  colorlinks=black, linkcolor=black, citecolor=black, urlcolor=black
+}
+
+\newtoggle{usedcites}
+\pretocmd{\cite}{\global\toggletrue{usedcites}}{}{}
+\pretocmd{\citet}{\global\toggletrue{usedcites}}{}{}
+\pretocmd{\citep}{\global\toggletrue{usedcites}}{}{}
+
+\AtEndDocument{
+	\iftoggle{usedcites}{
+		\newpage
+		\bibliographystyle{apacite}
+		\bibliography{references}
+	}
+}
+
+% ===================== Document =====================
+
+\begin{document}
+
+\Huge
+\MakeUppercase{\titletext}
+
+\huge
+\authortext, \affiliation
+
+\large
+\textit{\datetext}
+
+\end{document}

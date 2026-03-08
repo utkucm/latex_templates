@@ -1,0 +1,180 @@
+\documentclass[11pt]{article}
+
+% =========================
+% Core layout and language
+% =========================
+\usepackage[margin=1in]{geometry}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[english]{babel}
+\usepackage{lmodern}
+\usepackage{parskip}
+\usepackage{float}
+% \usepackage{microtype}
+
+% =========================
+% Math
+% =========================
+\usepackage{amsmath,amssymb,amsfonts,amsthm,mathtools,bm}
+
+% =========================
+% Figures, tables, lists
+% =========================
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage{enumitem}
+\setlist[itemize]{topsep=2pt,itemsep=2pt,parsep=0pt}
+\setlist[enumerate]{topsep=2pt,itemsep=2pt,parsep=0pt}
+
+% =========================
+% Utilities
+% =========================
+\usepackage{environ}
+\usepackage{etoolbox}
+\usepackage{xcolor}
+\usepackage{datetime}
+\longdate{}
+
+% =========================
+% Header / footer
+% =========================
+\usepackage{fancyhdr}
+\setlength{\headheight}{13pt}
+\pagestyle{fancy}
+\fancyhf{}
+\lhead{\small\coursename}
+\chead{\small\leftmark}
+\rhead{\small\rightmark}
+\cfoot{\thepage}
+\renewcommand{\headrulewidth}{0.4pt}
+
+% =========================
+% Lecture counter
+% =========================
+\newcounter{lecture}
+\numberwithin{equation}{lecture}
+
+% \newlecture{number}{topic}{date}{author}
+\newcommand{\newlecture}[4]{%
+  \setcounter{lecture}{#1}%
+  \phantomsection{}%
+  \ifblank{#2}{%
+    \addcontentsline{toc}{section}{Lecture #1}%
+    \markboth{Lecture #1}{#3}%
+  }{%
+    \addcontentsline{toc}{section}{Lecture #1: #2}%
+    \markboth{Lecture #1: #2}{#3}%
+  }%
+}
+
+% =========================
+% Theorem environments (amsthm)
+% =========================
+\renewcommand{\qedsymbol}{\ensuremath{\blacksquare}}
+
+\theoremstyle{plain}
+\newtheorem{theorem}{Theorem}[lecture]
+\newtheorem{lemma}{Lemma}[lecture]
+\newtheorem{corollary}{Corollary}[lecture]
+\newtheorem{proposition}{Proposition}[lecture]
+
+\theoremstyle{definition}
+\newtheorem{definition}{Definition}[lecture]
+\newtheorem{example}{Example}[lecture]
+
+\theoremstyle{remark}
+\newtheorem{remark}{Remark}[lecture]
+
+% =========================
+% Links (load hyperref, then cleveref)
+% =========================
+\usepackage[hidelinks,unicode]{hyperref}
+\usepackage[nameinlink,noabbrev]{cleveref}
+
+% =========================
+% Referencing
+% =========================
+\usepackage{apacite}
+
+% =========================
+% Course metadata
+% =========================
+\newcommand{\coursename}{Course Name}
+\newcommand{\coursenumber}{DEPT 000}
+\newcommand{\instructor}{Instructor Name}
+\newcommand{\noteauthor}{Author Name}
+\newcommand{\semester}{Semester Year}
+
+\hypersetup{
+  pdftitle={\coursename\ Lecture Notes},
+  pdfauthor={\noteauthor},
+  colorlinks=false
+}
+
+% =========================
+% Math shortcuts
+% =========================
+\DeclarePairedDelimiter\abs{\lvert}{\rvert}
+\DeclarePairedDelimiter\norm{\lVert}{\rVert}
+\DeclarePairedDelimiter\set{\{}{\}}
+\DeclareMathOperator*{\argmin}{arg\,min}
+\DeclareMathOperator*{\argmax}{arg\,max}
+\DeclareMathOperator{\E}{\mathbb{E}}
+\DeclareMathOperator{\Var}{Var}
+\DeclareMathOperator{\Cov}{Cov}
+\DeclareMathOperator{\Prob}{\mathbb{P}}
+\DeclareMathOperator{\plim}{plim}
+\newcommand{\iid}{\stackrel{\text{iid}}{\sim}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\1}{\mathbb{1}}
+
+% =========================
+% Auto bibliography
+% =========================
+\newtoggle{usedcites}
+\pretocmd{\cite}{\global\toggletrue{usedcites}}{}{}
+\pretocmd{\citet}{\global\toggletrue{usedcites}}{}{}
+\pretocmd{\citep}{\global\toggletrue{usedcites}}{}{}
+
+\AtEndDocument{
+  \iftoggle{usedcites}{
+    \newpage
+    \bibliographystyle{apacite}
+    \bibliography{references}
+  }
+}
+
+% =========================
+% Course title page macro
+% =========================
+\newcommand{\makecoursetitlepage}{%
+  \begin{titlepage}
+    \thispagestyle{empty}
+    \centering
+    \vspace*{4cm}
+    {\LARGE\bfseries \coursename}\par
+    \vspace{0.4cm}
+    {\large \coursenumber\ \ensuremath{\cdot}\ \noteauthor}\par
+    \vspace{0.4cm}
+    {\large \semester}\par
+    \vfill
+    {\normalsize \noteauthor}\par
+    \vspace*{2cm}
+  \end{titlepage}%
+}
+
+% ===================== Document =====================
+\begin{document}
+
+\makecoursetitlepage{}
+
+\thispagestyle{empty}
+\tableofcontents
+\clearpage
+
+\input{lectures/lecture1.tex}
+\newpage
+\input{lectures/lecture2.tex}
+
+\end{document}

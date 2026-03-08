@@ -9,15 +9,14 @@
 \usepackage[T1]{fontenc}
 \usepackage[english]{babel}
 \usepackage{lmodern}
+\usepackage{microtype}
 \usepackage{parskip}
 \usepackage{float}
-% \usepackage{microtype}
 
 % =========================
 % Math
 % =========================
 \usepackage{amsmath,amssymb,amsfonts,amsthm,mathtools,bm}
-\numberwithin{equation}{section}
 
 % =========================
 % Figures, tables, lists
@@ -30,9 +29,53 @@
 \setlist[enumerate]{topsep=2pt,itemsep=2pt,parsep=0pt}
 
 % =========================
+% Colors and boxes
+% =========================
+\usepackage{xcolor}
+\usepackage[most]{tcolorbox}
+
+\tcbset{
+  solutionbox/.style={
+    blanker,
+    breakable,
+    before upper={\setlength{\parskip}{6pt}},
+  }
+}
+
+% =========================
+% Code listings
+% =========================
+\usepackage{listings}
+\lstset{
+  basicstyle=\ttfamily\small,
+  keywordstyle=\bfseries,
+  commentstyle=\color{gray},
+  stringstyle=\color{teal},
+  numberstyle=\tiny\color{gray},
+  numbers=left,
+  numbersep=8pt,
+  breaklines=true,
+  frame=single,
+  framerule=0.4pt,
+  rulecolor=\color{gray!40},
+  captionpos=b,
+}
+
+% =========================
+% Headers and footers
+% =========================
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhf{}
+\renewcommand{\headrulewidth}{0.4pt}
+\fancyhead[L]{\small\coursename}
+\fancyhead[C]{\small\assignmenttitle}
+\fancyhead[R]{\small\studentname}
+\fancyfoot[C]{\small\thepage}
+
+% =========================
 % Utilities
 % =========================
-\usepackage{environ}
 \usepackage{etoolbox}
 
 % =========================
@@ -58,7 +101,6 @@
 \hypersetup{
   pdftitle={\assignmenttitle},
   pdfauthor={\studentname},
-  colorlinks=black, linkcolor=black, citecolor=black, urlcolor=black
 }
 
 
@@ -83,8 +125,6 @@
 % =========================
 % Theorem-like environments
 % =========================
-\numberwithin{equation}{section}
-
 \theoremstyle{plain}
 \newtheorem{theorem}{Theorem}[section]
 \newtheorem{proposition}[theorem]{Proposition}
@@ -93,19 +133,65 @@
 
 \theoremstyle{definition}
 \newtheorem{definition}[theorem]{Definition}
-\newtheorem{question}[theorem]{Question}
-\newtheorem{problem}[theorem]{Problem}
+\newtheorem{problem}{Problem}[section]
+\newtheorem{question}[problem]{Question}
+% Display problems as 1, 2, 3 (no section prefix), but keep counter subordinate to section
+\renewcommand{\theproblem}{\arabic{problem}}
+% Reset equation counter per problem; override label to include section explicitly
+\numberwithin{equation}{problem}
+\renewcommand{\theequation}{\thesection.\arabic{problem}.\arabic{equation}}
 
 \theoremstyle{remark}
-\newtheorem*{solution}{Solution}
-\newtheorem*{answer}{Answer}
+\newtheorem*{remark}{Remark}
 
+% Solution and answer as left-bar boxes
+\newenvironment{solution}{%
+  \begin{tcolorbox}[solutionbox]%
+  \textit{Solution.}\space\ignorespaces}{%
+  \end{tcolorbox}}
+
+\newenvironment{answer}{%
+  \begin{tcolorbox}[solutionbox]%
+  \textit{Answer.}\space\ignorespaces}{%
+  \end{tcolorbox}}
+
+% =========================
+% Sub-parts
+% =========================
+% Shorthand keys: use [roman] or [alpha] as optional arg to \begin{parts}
+\SetEnumitemKey{alpha}{label=(\alph*)} % chktex 36
+\SetEnumitemKey{roman}{label=(\roman*)} % chktex 36
+
+\newlist{parts}{enumerate}{1}
+\setlist[parts]{
+  alpha,          % default: (a), (b), (c) — override with [roman]
+  align=left,
+  topsep=4pt,
+  itemsep=2pt,
+  parsep=0pt,
+  leftmargin=2.5em,
+  labelwidth=1.5em,
+  labelsep=0.5em,
+}
+
+\newlist{subparts}{enumerate}{1}
+\setlist[subparts]{
+  roman,          % default: (i), (ii), (iii) — override with [alpha]
+  align=left,
+  topsep=2pt,
+  itemsep=1pt,
+  parsep=0pt,
+  leftmargin=1.5em,
+  labelwidth=1.5em,
+  labelsep=0.5em,
+}
 
 % =========================
 % Title page macro
 % =========================
-\newcommand{\maketitlepage}{
+\newcommand{\maketitlepage}{%
   \begin{titlepage}
+    \thispagestyle{empty}
     \centering
     \vspace*{4cm}
     {\Huge \textbf{\coursename}}\par
@@ -117,7 +203,7 @@
     \vspace{0.3cm}
     {\large \duedate}\par
     \vspace*{2cm}
-  \end{titlepage}
+  \end{titlepage}%
 }
 
 \newtoggle{usedcites}
@@ -130,14 +216,12 @@
 		\newpage
 		\bibliographystyle{apacite}
 		\bibliography{references}
-	}
+	}{}
 }
 
 % ===================== Document =====================
 \begin{document}
 
-\maketitlepage
-
-
+\maketitlepage{}
 
 \end{document}

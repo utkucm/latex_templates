@@ -10,7 +10,7 @@
 \usepackage{lmodern}
 \usepackage{parskip}
 \usepackage{float}
-% \usepackage{microtype}
+\usepackage{microtype}
 
 % =========================
 % Math
@@ -55,8 +55,8 @@
 \newcounter{lecture}
 \numberwithin{equation}{lecture}
 
-% \newlecture{number}{topic}{date}{author}
-\newcommand{\newlecture}[4]{%
+% \newlecture{number}{topic}{date}
+\newcommand{\newlecture}[3]{%
     \setcounter{lecture}{#1}%
     \phantomsection{}%
     \ifblank{#2}{%
@@ -87,15 +87,15 @@
 \newtheorem{remark}{Remark}[lecture]
 
 % =========================
+% Referencing
+% =========================
+\usepackage{apacite}
+
+% =========================
 % Links (load hyperref, then cleveref)
 % =========================
 \usepackage[hidelinks,unicode]{hyperref}
 \usepackage[nameinlink,noabbrev]{cleveref}
-
-% =========================
-% Referencing
-% =========================
-\usepackage{apacite}
 
 % =========================
 % Course metadata
@@ -155,7 +155,7 @@
         \vspace*{4cm}
         {\LARGE\bfseries \coursename}\par
         \vspace{0.4cm}
-        {\large \coursenumber\ \ensuremath{\cdot}\ \noteauthor}\par
+        {\large \coursenumber}\par
         \vspace{0.4cm}
         {\large \semester}\par
         \vfill

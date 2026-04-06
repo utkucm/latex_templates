@@ -11,7 +11,7 @@
 \usepackage{lmodern}
 \usepackage{parskip}
 \usepackage{float}
-% \usepackage{microtype}
+\usepackage{microtype}
 \usepackage{newtxtext}
 
 % =========================
@@ -37,15 +37,15 @@
 \usepackage{etoolbox}
 
 % =========================
+% Referencing
+% =========================
+\usepackage{apacite}
+
+% =========================
 % Links (load hyperref, then cleveref)
 % =========================
 \usepackage[hidelinks,unicode]{hyperref}
 \usepackage[nameinlink,noabbrev]{cleveref}
-
-% =========================
-% Referencing
-% =========================
-\usepackage{apacite}
 
 % =========================
 % Metadata
@@ -74,17 +74,22 @@
     }
 }
 
+% =========================
+% Title macro
+% =========================
+\newcommand{\makestatementtitle}{%
+    {\Huge\MakeUppercase{\titletext}}\par
+    \vspace{0.4cm}
+    {\huge\authortext, \affiliation}\par
+    \vspace{0.2cm}
+    {\large\textit{\datetext}}\par
+    \vspace{1cm}
+}
+
 % ===================== Document =====================
 
 \begin{document}
 
-\Huge
-\MakeUppercase{\titletext}
-
-\huge
-\authortext, \affiliation,
-
-\large
-\textit{\datetext}
+\makestatementtitle{}
 
 \end{document}

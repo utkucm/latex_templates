@@ -1,0 +1,191 @@
+% ===================== Academic CV Template =====================
+\documentclass[11pt]{article}
+
+% =========================
+% Core layout and language
+% =========================
+\usepackage[top=1in,bottom=1in,left=1in,right=1in]{geometry}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[english]{babel}
+\usepackage{newtxtext}
+\usepackage{microtype}
+
+% =========================
+% Lists
+% =========================
+\usepackage{enumitem}
+
+% =========================
+% Utilities
+% =========================
+\usepackage{etoolbox}
+
+% =========================
+% Section formatting
+% =========================
+\usepackage{titlesec}
+\titleformat{\section}{\normalsize\scshape}{}{0em}{}[\vspace{1pt}\titlerule]
+\titlespacing*{\section}{0pt}{14pt}{6pt}
+
+% =========================
+% Headers and footers
+% =========================
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhf{}
+\renewcommand{\headrulewidth}{0pt}
+\fancyfoot[C]{\small\thepage}
+
+\fancypagestyle{firstpage}{%
+    \fancyhf{}%
+    \renewcommand{\headrulewidth}{0pt}%
+    \renewcommand{\footrulewidth}{0pt}%
+}
+
+% =========================
+% Links
+% =========================
+\usepackage[unicode,hidelinks]{hyperref}
+
+% =========================
+% Metadata
+% =========================
+\newcommand{\cvname}{Full Name}
+\newcommand{\cvdepartment}{Department of Economics}
+\newcommand{\cvinstitution}{University Name}
+\newcommand{\cvaddress}{City, State, Country}
+\newcommand{\cvemail}{email@university.edu}
+\newcommand{\cvphone}{+1 (000) 000--0000}
+\newcommand{\cvwebsite}{yourwebsite.com}
+
+\hypersetup{
+    pdftitle={\cvname\ --- Curriculum Vitae},
+    pdfauthor={\cvname},
+}
+
+% =========================
+% CV entry environment
+% Two-column layout: date on left, content on right.
+% Adjust \cvdatecol to widen or narrow the date column.
+% =========================
+\newlength{\cvdatecol}
+\setlength{\cvdatecol}{1.4in}
+
+\newenvironment{cventries}{%
+    \begin{list}{}{%
+            \setlength{\leftmargin}{\cvdatecol}%
+            \setlength{\labelwidth}{\dimexpr\cvdatecol-0.5em\relax}%
+            \setlength{\labelsep}{0.5em}%
+            \setlength{\topsep}{2pt}%
+            \setlength{\itemsep}{5pt}%
+            \setlength{\parsep}{0pt}%
+        }%
+    }{
+\end{list}}
+
+% \cventry{dates}{content}
+\newcommand{\cventry}[2]{%
+\item[\hfill\small\textit{#1}] #2%
+}
+
+% =========================
+% CV header macro
+% =========================
+\newcommand{\makecvheader}{%
+    \thispagestyle{firstpage}%
+    \begin{center}
+        {\LARGE\textbf{\cvname}}\par
+        \vspace{5pt}
+        {\small\cvdepartment\ \textbullet\ \cvinstitution\ \textbullet\ \cvaddress}\par
+        \vspace{3pt}
+        {\small\href{mailto:\cvemail}{\cvemail}\ \textbullet\ \cvphone\ \textbullet\ \href{https://\cvwebsite}{\cvwebsite}}\par
+    \end{center}
+    \vspace{2pt}%
+    \rule{\linewidth}{0.6pt}%
+    \vspace{2pt}%
+}
+
+% ===================== Document =====================
+\begin{document}
+
+\makecvheader{}
+
+\section{Education}
+
+\begin{cventries}
+    \cventry{2020--present}{%
+        \textbf{Ph.D. in Economics}, University Name, City\\
+        Advisors: Advisor One \& Advisor Two\\
+        Dissertation: \textit{Dissertation Title}
+    }
+    \cventry{2018}{%
+        \textbf{M.A. in Economics}, University Name, City
+    }
+    \cventry{2016}{%
+        \textbf{B.Sc.\ in Mathematics}, University Name, City\\
+        \textit{Summa Cum Laude}
+    }
+\end{cventries}
+
+\section{Research Interests}
+
+Primary: Econometrics, Causal Inference\par
+Secondary: Labor Economics, Applied Microeconomics
+
+\section{Working Papers}
+
+\begin{cventries}
+    \cventry{2024}{%
+        ``Paper Title'' \textit{With Co-author Name.} Under review at \textit{Journal Name.}
+    }
+    \cventry{2023}{%
+        ``Another Paper Title'' \textit{With Co-author Name.} In preparation.
+    }
+\end{cventries}
+
+\section{Publications}
+
+\begin{cventries}
+    \cventry{2022}{%
+        ``Published Paper Title''
+        \textit{Journal of Economics}, 00(0), 000--000.
+    }
+\end{cventries}
+
+\section{Presentations}
+
+\begin{cventries}
+    \cventry{2024}{Conference Name (City); Workshop Name (City)}
+    \cventry{2023}{Conference Name (City)}
+\end{cventries}
+
+\section{Teaching Experience}
+
+\begin{cventries}
+    \cventry{Spring 2024}{%
+        \textbf{Teaching Assistant}, Course Name (DEPT 000), University Name
+    }
+    \cventry{Fall 2023}{%
+        \textbf{Teaching Assistant}, Course Name (DEPT 000), University Name
+    }
+\end{cventries}
+
+\section{Fellowships \& Awards}
+
+\begin{cventries}
+    \cventry{2023}{Fellowship Name, Institution Name}
+    \cventry{2022}{Award Name, Institution Name (\$X{,}000)}
+    \cventry{2020}{Fellowship Name, Institution Name}
+\end{cventries}
+
+\section{Skills \& Software}
+
+\textbf{Languages:} English (proficient), German (proficient), Turkish (Native) \\
+\textbf{Software:} Python, MATLAB, Stata, \LaTeX{}
+
+\section{References}
+
+Available upon request.
+
+\end{document}

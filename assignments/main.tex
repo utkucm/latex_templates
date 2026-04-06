@@ -79,15 +79,15 @@
 \usepackage{etoolbox}
 
 % =========================
+% Referencing
+% =========================
+\usepackage{apacite}
+
+% =========================
 % Links (load hyperref, then cleveref)
 % =========================
 \usepackage[hidelinks,unicode]{hyperref}
 \usepackage[nameinlink,noabbrev]{cleveref}
-
-% =========================
-% Referencing
-% =========================
-\usepackage{apacite}
 
 % =========================
 % Metadata
@@ -221,5 +221,22 @@
 \begin{document}
 
 \maketitlepage{}
+
+\begin{problem}
+    Let \(f : \R \to \R\) be a differentiable function. Prove that if \(f'(x) = 0\) for all \(x \in \R\), then \(f\) is constant. % chktex 21
+
+    \begin{parts}
+        \item Show that \(f(x) = f(0)\) for all \(x > 0\).
+        \item Extend the argument to all \(x \in \R\). % chktex 21
+    \end{parts}
+\end{problem}
+
+\begin{solution}
+    By the Mean Value Theorem, for any \(x > 0\) there exists \(c \in (0, x)\) such that
+    \[
+        f(x) - f(0) = f'(c)(x - 0) = 0.
+    \]
+    Hence \(f(x) = f(0)\) for all \(x > 0\). An identical argument on \((-x, 0)\) covers \(x < 0\).
+\end{solution}
 
 \end{document}

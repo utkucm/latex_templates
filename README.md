@@ -7,6 +7,7 @@ Personal LaTeX templates for various purposes.
 | Template | Description |
 |---|---|
 | `assignments/` | Problem set / homework template with numbered problems, parts, solution boxes, and auto bibliography |
+| `beamer_presentation/` | Minimal formal Beamer presentation with custom dark navy theme, section dividers, and a thank-you slide |
 | `cv/` | Minimal formal academic CV with two-column date/content entries and small-caps section headers |
 | `lecture_notes/` | Multi-lecture notes template with per-lecture counters, TOC, and header navigation |
 | `research_statement/` | Clean research statement template with Times-style font |
@@ -17,13 +18,14 @@ A full TeX distribution is required (e.g. [TeX Live](https://www.tug.org/texlive
 
 `amsmath`, `amssymb`, `amsthm`, `mathtools`, `bm`, `geometry`, `lmodern`, `microtype`, `parskip`, `fancyhdr`, `hyperref`, `cleveref`, `apacite`, `booktabs`, `enumitem`, `xcolor`, `tcolorbox`, `listings`, `graphicx`, `etoolbox`
 
-Additionally: `newtxtext` (research statement, cv), `titlesec` (cv), `datetime`, `environ` (lecture notes).
+Additionally: `newtxtext` (research statement, cv), `titlesec` (cv), `tikz` (beamer), `datetime`, `environ` (lecture notes).
 
 ## Building
 
 ```bash
 # compile a specific template
 make assignments
+make beamer_presentation
 make cv
 make lecture_notes
 make research_statement

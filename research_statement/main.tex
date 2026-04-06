@@ -55,11 +55,10 @@
 \newcommand{\affiliation}{Affiliation}
 \newcommand{\datetext}{Month Year}
 
-
 \hypersetup{
-  pdftitle={\titletext},
-  pdfauthor={\authortext},
-  colorlinks=false, linkcolor=black, citecolor=black, urlcolor=black
+    pdftitle={\titletext},
+    pdfauthor={\authortext},
+    colorlinks=false, linkcolor=black, citecolor=black, urlcolor=black
 }
 
 \newtoggle{usedcites}
@@ -68,11 +67,11 @@
 \pretocmd{\citep}{\global\toggletrue{usedcites}}{}{}
 
 \AtEndDocument{
-	\iftoggle{usedcites}{
-		\newpage
-		\bibliographystyle{apacite}
-		\bibliography{references}
-	}
+    \iftoggle{usedcites}{
+        \newpage
+        \bibliographystyle{apacite}
+        \bibliography{references}
+    }
 }
 
 % ===================== Document =====================

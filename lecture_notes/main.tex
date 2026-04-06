@@ -57,15 +57,15 @@
 
 % \newlecture{number}{topic}{date}{author}
 \newcommand{\newlecture}[4]{%
-  \setcounter{lecture}{#1}%
-  \phantomsection{}%
-  \ifblank{#2}{%
-    \addcontentsline{toc}{section}{Lecture #1}%
-    \markboth{Lecture #1}{#3}%
-  }{%
-    \addcontentsline{toc}{section}{Lecture #1: #2}%
-    \markboth{Lecture #1: #2}{#3}%
-  }%
+    \setcounter{lecture}{#1}%
+    \phantomsection{}%
+    \ifblank{#2}{%
+        \addcontentsline{toc}{section}{Lecture #1}%
+        \markboth{Lecture #1}{#3}%
+    }{%
+        \addcontentsline{toc}{section}{Lecture #1: #2}%
+        \markboth{Lecture #1: #2}{#3}%
+    }%
 }
 
 % =========================
@@ -107,9 +107,9 @@
 \newcommand{\semester}{Semester Year}
 
 \hypersetup{
-  pdftitle={\coursename\ Lecture Notes},
-  pdfauthor={\noteauthor},
-  colorlinks=false
+    pdftitle={\coursename\ Lecture Notes},
+    pdfauthor={\noteauthor},
+    colorlinks=false
 }
 
 % =========================
@@ -138,30 +138,30 @@
 \pretocmd{\citep}{\global\toggletrue{usedcites}}{}{}
 
 \AtEndDocument{
-  \iftoggle{usedcites}{
-    \newpage
-    \bibliographystyle{apacite}
-    \bibliography{references}
-  }
+    \iftoggle{usedcites}{
+        \newpage
+        \bibliographystyle{apacite}
+        \bibliography{references}
+    }
 }
 
 % =========================
 % Course title page macro
 % =========================
 \newcommand{\makecoursetitlepage}{%
-  \begin{titlepage}
-    \thispagestyle{empty}
-    \centering
-    \vspace*{4cm}
-    {\LARGE\bfseries \coursename}\par
-    \vspace{0.4cm}
-    {\large \coursenumber\ \ensuremath{\cdot}\ \noteauthor}\par
-    \vspace{0.4cm}
-    {\large \semester}\par
-    \vfill
-    {\normalsize \noteauthor}\par
-    \vspace*{2cm}
-  \end{titlepage}%
+    \begin{titlepage}
+        \thispagestyle{empty}
+        \centering
+        \vspace*{4cm}
+        {\LARGE\bfseries \coursename}\par
+        \vspace{0.4cm}
+        {\large \coursenumber\ \ensuremath{\cdot}\ \noteauthor}\par
+        \vspace{0.4cm}
+        {\large \semester}\par
+        \vfill
+        {\normalsize \noteauthor}\par
+        \vspace*{2cm}
+    \end{titlepage}%
 }
 
 % ===================== Document =====================

@@ -35,11 +35,11 @@
 \usepackage[most]{tcolorbox}
 
 \tcbset{
-  solutionbox/.style={
-    blanker,
-    breakable,
-    before upper={\setlength{\parskip}{6pt}},
-  }
+    solutionbox/.style={
+        blanker,
+        breakable,
+        before upper={\setlength{\parskip}{6pt}},
+    }
 }
 
 % =========================
@@ -47,18 +47,18 @@
 % =========================
 \usepackage{listings}
 \lstset{
-  basicstyle=\ttfamily\small,
-  keywordstyle=\bfseries,
-  commentstyle=\color{gray},
-  stringstyle=\color{teal},
-  numberstyle=\tiny\color{gray},
-  numbers=left,
-  numbersep=8pt,
-  breaklines=true,
-  frame=single,
-  framerule=0.4pt,
-  rulecolor=\color{gray!40},
-  captionpos=b,
+    basicstyle=\ttfamily\small,
+    keywordstyle=\bfseries,
+    commentstyle=\color{gray},
+    stringstyle=\color{teal},
+    numberstyle=\tiny\color{gray},
+    numbers=left,
+    numbersep=8pt,
+    breaklines=true,
+    frame=single,
+    framerule=0.4pt,
+    rulecolor=\color{gray!40},
+    captionpos=b,
 }
 
 % =========================
@@ -99,10 +99,9 @@
 \newcommand{\duedate}{\today}
 
 \hypersetup{
-  pdftitle={\assignmenttitle},
-  pdfauthor={\studentname},
+    pdftitle={\assignmenttitle},
+    pdfauthor={\studentname},
 }
-
 
 % =========================
 % Math shortcuts
@@ -145,14 +144,14 @@
 
 % Solution and answer as left-bar boxes
 \newenvironment{solution}{%
-  \begin{tcolorbox}[solutionbox]%
-  \textit{Solution.}\space\ignorespaces}{%
-  \end{tcolorbox}}
+    \begin{tcolorbox}[solutionbox]%
+    \textit{Solution.}\space\ignorespaces}{%
+\end{tcolorbox}}
 
 \newenvironment{answer}{%
-  \begin{tcolorbox}[solutionbox]%
-  \textit{Answer.}\space\ignorespaces}{%
-  \end{tcolorbox}}
+    \begin{tcolorbox}[solutionbox]%
+    \textit{Answer.}\space\ignorespaces}{%
+\end{tcolorbox}}
 
 % =========================
 % Sub-parts
@@ -163,46 +162,46 @@
 
 \newlist{parts}{enumerate}{1}
 \setlist[parts]{
-  alpha,          % default: (a), (b), (c) — override with [roman]
-  align=left,
-  topsep=4pt,
-  itemsep=2pt,
-  parsep=0pt,
-  leftmargin=2.5em,
-  labelwidth=1.5em,
-  labelsep=0.5em,
+    alpha,          % default: (a), (b), (c) — override with [roman]
+    align=left,
+    topsep=4pt,
+    itemsep=2pt,
+    parsep=0pt,
+    leftmargin=2.5em,
+    labelwidth=1.5em,
+    labelsep=0.5em,
 }
 
 \newlist{subparts}{enumerate}{1}
 \setlist[subparts]{
-  roman,          % default: (i), (ii), (iii) — override with [alpha]
-  align=left,
-  topsep=2pt,
-  itemsep=1pt,
-  parsep=0pt,
-  leftmargin=1.5em,
-  labelwidth=1.5em,
-  labelsep=0.5em,
+    roman,          % default: (i), (ii), (iii) — override with [alpha]
+    align=left,
+    topsep=2pt,
+    itemsep=1pt,
+    parsep=0pt,
+    leftmargin=1.5em,
+    labelwidth=1.5em,
+    labelsep=0.5em,
 }
 
 % =========================
 % Title page macro
 % =========================
 \newcommand{\maketitlepage}{%
-  \begin{titlepage}
-    \thispagestyle{empty}
-    \centering
-    \vspace*{4cm}
-    {\Huge \textbf{\coursename}}\par
-    \vspace{0.5cm}
-    {\LARGE \textbf{\assignmenttitle}}\par
-    \vfill
-    {\Large \studentname}\par
-    {\large ID\@: \studentid}\par % chktex 13
-    \vspace{0.3cm}
-    {\large \duedate}\par
-    \vspace*{2cm}
-  \end{titlepage}%
+    \begin{titlepage}
+        \thispagestyle{empty}
+        \centering
+        \vspace*{4cm}
+        {\Huge \textbf{\coursename}}\par
+        \vspace{0.5cm}
+        {\LARGE \textbf{\assignmenttitle}}\par
+        \vfill
+        {\Large \studentname}\par
+        {\large ID\@: \studentid}\par % chktex 13
+        \vspace{0.3cm}
+        {\large \duedate}\par
+        \vspace*{2cm}
+    \end{titlepage}%
 }
 
 \newtoggle{usedcites}
@@ -211,11 +210,11 @@
 \pretocmd{\citep}{\global\toggletrue{usedcites}}{}{}
 
 \AtEndDocument{
-	\iftoggle{usedcites}{
-		\newpage
-		\bibliographystyle{apacite}
-		\bibliography{references}
-	}{}
+    \iftoggle{usedcites}{
+        \newpage
+        \bibliographystyle{apacite}
+        \bibliography{references}
+    }{}
 }
 
 % ===================== Document =====================

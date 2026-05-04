@@ -8,7 +8,7 @@ assignments:
 	cd assignments && $(LATEXMK) main.tex
 
 beamer_presentation:
-	cd beamer_presentation && $(LATEXMK) main.tex
+	cd beamer && latexmk -lualatex -interaction=nonstopmode main.tex
 
 lecture_notes:
 	cd lecture_notes && $(LATEXMK) main.tex
@@ -21,7 +21,7 @@ cv:
 
 clean:
 	cd assignments && latexmk -C main.tex
-	cd beamer_presentation && latexmk -C main.tex
+	cd beamer && latexmk -C main.tex
 	cd lecture_notes && latexmk -C main.tex
 	cd research_statement && latexmk -C main.tex
 	cd cv && latexmk -C main.tex

@@ -1,4 +1,3 @@
-% ===================== Economics Paper Template =====================
 \documentclass[12pt]{article}
 
 % =========================
@@ -7,10 +6,10 @@
 \usepackage[top=1in,bottom=1in,left=1in,right=1in]{geometry}
 
 % =========================
-% Font
+% Math (newtxmath before amsmath/amssymb to avoid symbol conflicts)
 % =========================
-\usepackage{newtxtext,newtxmath}
-\usepackage{microtype}
+\usepackage{amsmath,amssymb,amsthm,mathtools,bm}
+\numberwithin{equation}{section}
 
 % =========================
 % Paragraph spacing
@@ -18,10 +17,9 @@
 \usepackage{parskip}
 
 % =========================
-% Math
+% Microtype
 % =========================
-\usepackage{amsmath,amssymb,amsthm,mathtools,bm}
-\numberwithin{equation}{section}
+\usepackage{microtype}
 
 % =========================
 % Theorem environments
@@ -43,7 +41,7 @@
 % Citations
 % =========================
 \usepackage[round]{natbib}
-\bibliographystyle{apa}
+\bibliographystyle{apalike}
 
 % =========================
 % Figures and tables
@@ -77,13 +75,13 @@
 \newcommand{\paperdate}{\today}
 
 \title{%
-  \papertitle
-  \ifx\papersubtitle\empty\else\\\large\papersubtitle\fi
+    \papertitle%
+    \ifx\papersubtitle\empty\else\\\large\papersubtitle\fi
 }
 \author{%
-  \authorname\\
-  \small\affiliation\\
-  \small\href{mailto:\authoremail}{\authoremail}
+    \authorname\\
+    \small\affiliation\\
+    \small\href{mailto:\authoremail}{\authoremail}
 }
 \date{\paperdate}
 
@@ -93,46 +91,40 @@
 \maketitle
 
 \begin{abstract}
-  % Abstract goes here.
+    % Abstract goes here.
 \end{abstract}
 
 % -------------------------------------------------------
 \section{Introduction}
 % -------------------------------------------------------
 
-
-
 % -------------------------------------------------------
 \section{Model}
 % -------------------------------------------------------
-
-
 
 % -------------------------------------------------------
 \section{Main Results}
 % -------------------------------------------------------
 
 \begin{theorem}
-  % Statement of theorem.
+    % Statement of theorem.
 \end{theorem}
 
 \begin{proof}
-  % Proof goes here.
+    % Proof goes here.
 \end{proof}
 
 % -------------------------------------------------------
 \section{Conclusion}
 % -------------------------------------------------------
-
-
-
+\citep{example2020}
 % -------------------------------------------------------
 % Appendix
 % -------------------------------------------------------
 \begin{appendices}
 
-\section{Proofs}
-% Proofs of main results.
+    \section{Proofs}
+    % Proofs of main results.
 
 \end{appendices}
 

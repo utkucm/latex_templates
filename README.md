@@ -11,6 +11,7 @@ Personal LaTeX templates for various purposes.
 | `cv/` | Minimal formal academic CV with two-column date/content entries and small-caps section headers |
 | `lecture_notes/` | Multi-lecture notes template with per-lecture counters, TOC, and header navigation |
 | `research_statement/` | Clean research statement template with Times-style font |
+| `paper/` | Math-heavy economics working paper with APA citations, per-section theorem/equation numbering, and standard section skeleton |
 
 ## Requirements
 

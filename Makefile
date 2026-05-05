@@ -1,8 +1,8 @@
-.PHONY: all assignments beamer_presentation lecture_notes research_statement cv clean
+.PHONY: all assignments beamer_presentation lecture_notes research_statement cv paper clean
 
 LATEXMK = latexmk -pdf -interaction=nonstopmode
 
-all: assignments beamer_presentation lecture_notes research_statement cv
+all: assignments beamer_presentation lecture_notes research_statement cv paper
 
 assignments:
 	cd assignments && $(LATEXMK) main.tex
@@ -19,9 +19,13 @@ research_statement:
 cv:
 	cd cv && $(LATEXMK) main.tex
 
+paper:
+	cd paper && $(LATEXMK) main.tex
+
 clean:
 	cd assignments && latexmk -C main.tex
 	cd beamer && latexmk -C main.tex
 	cd lecture_notes && latexmk -C main.tex
 	cd research_statement && latexmk -C main.tex
 	cd cv && latexmk -C main.tex
+	cd paper && latexmk -C main.tex

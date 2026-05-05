@@ -1,0 +1,144 @@
+% ===================== Economics Paper Template =====================
+\documentclass[12pt]{article}
+
+% =========================
+% Layout
+% =========================
+\usepackage[top=1in,bottom=1in,left=1in,right=1in]{geometry}
+
+% =========================
+% Font
+% =========================
+\usepackage{newtxtext,newtxmath}
+\usepackage{microtype}
+
+% =========================
+% Paragraph spacing
+% =========================
+\usepackage{parskip}
+
+% =========================
+% Math
+% =========================
+\usepackage{amsmath,amssymb,amsthm,mathtools,bm}
+\numberwithin{equation}{section}
+
+% =========================
+% Theorem environments
+% =========================
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{lemma}{Lemma}[section]
+\newtheorem{proposition}{Proposition}[section]
+\newtheorem{corollary}{Corollary}[section]
+
+\theoremstyle{definition}
+\newtheorem{assumption}{Assumption}[section]
+\newtheorem{definition}{Definition}[section]
+
+\theoremstyle{remark}
+\newtheorem{remark}{Remark}[section]
+\newtheorem{example}{Example}[section]
+
+% =========================
+% Citations
+% =========================
+\usepackage[round]{natbib}
+\bibliographystyle{apa}
+
+% =========================
+% Figures and tables
+% =========================
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage{float}
+
+% =========================
+% Utilities
+% =========================
+\usepackage{xcolor}
+\usepackage{enumitem}
+\usepackage[title]{appendix}
+\usepackage{csquotes}
+
+% =========================
+% Hyperlinks (load last)
+% =========================
+\usepackage[unicode,hidelinks]{hyperref}
+
+% =========================
+% Metadata
+% =========================
+\newcommand{\papertitle}{Paper Title}
+\newcommand{\papersubtitle}{}          % leave empty to omit
+\newcommand{\authorname}{Author Name}
+\newcommand{\authoremail}{email@university.edu}
+\newcommand{\affiliation}{Department, University}
+\newcommand{\paperdate}{\today}
+
+\title{%
+  \papertitle
+  \ifx\papersubtitle\empty\else\\\large\papersubtitle\fi
+}
+\author{%
+  \authorname\\
+  \small\affiliation\\
+  \small\href{mailto:\authoremail}{\authoremail}
+}
+\date{\paperdate}
+
+% ===================== Document =====================
+\begin{document}
+
+\maketitle
+
+\begin{abstract}
+  % Abstract goes here.
+\end{abstract}
+
+% -------------------------------------------------------
+\section{Introduction}
+% -------------------------------------------------------
+
+
+
+% -------------------------------------------------------
+\section{Model}
+% -------------------------------------------------------
+
+
+
+% -------------------------------------------------------
+\section{Main Results}
+% -------------------------------------------------------
+
+\begin{theorem}
+  % Statement of theorem.
+\end{theorem}
+
+\begin{proof}
+  % Proof goes here.
+\end{proof}
+
+% -------------------------------------------------------
+\section{Conclusion}
+% -------------------------------------------------------
+
+
+
+% -------------------------------------------------------
+% Appendix
+% -------------------------------------------------------
+\begin{appendices}
+
+\section{Proofs}
+% Proofs of main results.
+
+\end{appendices}
+
+% -------------------------------------------------------
+% Bibliography
+% -------------------------------------------------------
+\bibliography{references}
+
+\end{document}

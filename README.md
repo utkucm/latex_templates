@@ -4,6 +4,7 @@ Personal LaTeX templates for various purposes.
 
 ## Templates
 
+<<<<<<< HEAD
 | Template | Description |
 |---|---|
 | `assignments/` | Problem set / homework template with numbered problems, parts, solution boxes, and auto bibliography |
@@ -43,6 +44,17 @@ Or compile manually:
 ```bash
 cd assignments && latexmk -pdf main.tex
 ```
+=======
+| Template | Use for |
+|----------|---------|
+| `assignments/` | Problem sets, assignments |
+| `paper/` | Academic papers, reports |
+| `lecture_notes/` | Lecture notes with per-lecture file structure |
+| `beamer_presentation/` | Slide decks (Beamer) |
+| `cv/` | Curriculum vitae |
+| `research_statement/` | Research statements |
+| `referee_report/` | Journal referee reports |
+>>>>>>> ac7661c (feat: add referee report template with example references)
 
 ## Usage
 

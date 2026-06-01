@@ -1,0 +1,112 @@
+\documentclass[12pt]{article}
+
+% =========================
+% Layout
+% =========================
+\usepackage[top=1in,bottom=1in,left=1in,right=1in]{geometry}
+
+% =========================
+% Paragraph spacing
+% =========================
+\usepackage{parskip}
+
+% =========================
+% Microtype
+% =========================
+\usepackage{microtype}
+
+% =========================
+% Utilities
+% =========================
+\usepackage{xcolor}
+\usepackage{enumitem}
+
+% =========================
+% Citations
+% =========================
+\usepackage[round]{natbib}
+\bibliographystyle{apalike}
+
+% =========================
+% Hyperlinks (load last)
+% =========================
+\usepackage[unicode,hidelinks]{hyperref}
+
+% =========================
+% Metadata
+% =========================
+\newcommand{\manuscripttitle}{Manuscript Title}
+\newcommand{\journalname}{Journal Name}
+\newcommand{\manuscriptid}{MS-XXXX}
+\newcommand{\reportdate}{\today}
+
+\title{%
+    \large Referee Report\\[0.4em]
+    \normalsize \journalname\\
+    \small \textit{\manuscripttitle}\\
+    \small Manuscript \manuscriptid
+}
+\author{}
+\date{\reportdate}
+
+% ===================== Document =====================
+\begin{document}
+
+\maketitle
+\thispagestyle{empty}
+
+% -------------------------------------------------------
+\section*{Summary}
+% -------------------------------------------------------
+
+Summary \citep{example2020}
+% Briefly describe the paper's question, approach, and main findings in 1--2 paragraphs.
+% The goal is to show the editor you have read the paper carefully.
+
+% -------------------------------------------------------
+\section*{Overall Assessment}
+% -------------------------------------------------------
+
+% State your overall judgment: how significant is the contribution, how original is the work,
+% and how well does it fit the journal's scope?
+
+% -------------------------------------------------------
+\section*{Major Comments}
+% -------------------------------------------------------
+
+% List substantive concerns that must be addressed before the paper can be accepted.
+% Number each comment so authors can respond point by point.
+
+\begin{enumerate}
+    \item
+    \item
+    \item
+\end{enumerate}
+
+% -------------------------------------------------------
+\section*{Minor Comments}
+% -------------------------------------------------------
+
+% List smaller issues: exposition, notation, data presentation, typos, etc.
+
+\begin{enumerate}
+    \item
+    \item
+    \item
+\end{enumerate}
+
+% -------------------------------------------------------
+\section*{Recommendation}
+% -------------------------------------------------------
+
+% Choose one and delete the others, then add a brief justification.
+\textbf{Recommendation:} Accept / Minor Revision / Major Revision / Reject.
+
+% One or two sentences explaining the recommendation.
+
+% -------------------------------------------------------
+% Bibliography
+% -------------------------------------------------------
+\bibliography{references}
+
+\end{document}

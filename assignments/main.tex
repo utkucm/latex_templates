@@ -1,243 +1,313 @@
-% ===================== Assignment Template =====================
-\documentclass[11pt]{article}
+% ============================================================================
+% ASSIGNMENT TEMPLATE — ONE FILE, THREE MODES
+%
+% Change \AssignmentMode to one of:
+%   submission : questions + solutions; student details; no rubrics
+%   handout    : questions only; instructor/due date; optional answer space
+%   key        : questions + solutions; optional grading rubrics
+%
+% Set \Gradedfalse to hide problem points and totals in every mode.
+% Set \ShowTotalfalse to hide only the assignment total, keeping problem points.
+% Rubrics appear ONLY when mode=key, \Gradedtrue, and \ShowRubricstrue.
+% ============================================================================
+\documentclass[11pt,a4paper]{article}
 
-% =========================
-% Core layout and language
-% =========================
-\usepackage[margin=1in]{geometry}
-\usepackage[utf8]{inputenc}
+% ----------------------------------------------------------------------------
+% 1. CONFIGURATION — edit these settings for each assignment
+% ----------------------------------------------------------------------------
+\newcommand{\AssignmentMode}{submission} % submission | handout | key
+
+\newif\ifGraded
+\Gradedtrue                        % \Gradedtrue or \Gradedfalse
+\newif\ifShowRubrics
+\ShowRubricstrue                   % \ShowRubricstrue or \ShowRubricsfalse
+\newif\ifShowTotal
+\ShowTotaltrue                     % \ShowTotaltrue or \ShowTotalfalse
+
+\newcommand{\CourseCode}{ECON 501}
+\newcommand{\CourseName}{Microeconomic Theory}
+\newcommand{\FullCourseName}{\CourseCode\ -- \CourseName}
+\newcommand{\AcademicTerm}{Fall 2026}
+\newcommand{\AssignmentType}{Problem Set}
+\newcommand{\AssignmentNumber}{1}
+\newcommand{\AssignmentTopic}{Optimization and Convexity}
+\newcommand{\InstructorName}{Instructor Name}
+\newcommand{\StudentName}{Student Name}
+\newcommand{\StudentID}{123456789}
+\newcommand{\DueDate}{9 September 2026}
+\newcommand{\SubmissionDate}{9 October 2026}
+\newcommand{\AssignmentInstructions}{Show your reasoning and state any assumptions you use.}
+
+% ----------------------------------------------------------------------------
+% 2. PACKAGES AND FORMATTING — normally leave unchanged
+% ----------------------------------------------------------------------------
 \usepackage[T1]{fontenc}
-\usepackage[english]{babel}
 \usepackage{lmodern}
-\usepackage{microtype}
-\usepackage{parskip}
-\usepackage{float}
-
-% =========================
-% Math
-% =========================
-\usepackage{amsmath,amssymb,amsfonts,amsthm,mathtools,bm}
-
-% =========================
-% Figures, tables, lists
-% =========================
-\usepackage{graphicx}
-\usepackage{booktabs}
-\usepackage{array}
+\usepackage{amsmath,amssymb,mathtools}
+\usepackage[margin=0.85in]{geometry}
 \usepackage{enumitem}
-\setlist[itemize]{topsep=2pt,itemsep=2pt,parsep=0pt}
-\setlist[enumerate]{topsep=2pt,itemsep=2pt,parsep=0pt}
-
-% =========================
-% Colors and boxes
-% =========================
-\usepackage{xcolor}
-\usepackage[most]{tcolorbox}
-
-\tcbset{
-    solutionbox/.style={
-        blanker,
-        breakable,
-        before upper={\setlength{\parskip}{6pt}},
-    }
-}
-
-% =========================
-% Code listings
-% =========================
-\usepackage{listings}
-\lstset{
-    basicstyle=\ttfamily\small,
-    keywordstyle=\bfseries,
-    commentstyle=\color{gray},
-    stringstyle=\color{teal},
-    numberstyle=\tiny\color{gray},
-    numbers=left,
-    numbersep=8pt,
-    breaklines=true,
-    frame=single,
-    framerule=0.4pt,
-    rulecolor=\color{gray!40},
-    captionpos=b,
-}
-
-% =========================
-% Headers and footers
-% =========================
+\usepackage{etoolbox}
 \usepackage{fancyhdr}
+\usepackage[hidelinks]{hyperref}
+
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{0.32em}
+\setlength{\headheight}{14pt}
+\setlist[enumerate,1]{label = (\alph*),leftmargin=*,itemsep=0.35em}
+\setlist[enumerate,2]{label = (\roman*),leftmargin=*,itemsep=0.2em}
+
+% ----------------------------------------------------------------------------
+% 3. MODE LOGIC — do not edit for ordinary use
+% ----------------------------------------------------------------------------
+\newif\ifSubmissionMode
+\newif\ifHandoutMode
+\newif\ifKeyMode
+\newif\ifShowSolutions
+\newif\ifPrintRubrics
+
+\ifdefstring{\AssignmentMode}{submission}{%
+    \SubmissionModetrue
+    \ShowSolutionstrue
+    \newcommand{\ModeLabel}{Submission}
+}{%
+    \ifdefstring{\AssignmentMode}{handout}{%
+        \HandoutModetrue
+        \newcommand{\ModeLabel}{Handout}
+    }{%
+        \ifdefstring{\AssignmentMode}{key}{%
+            \KeyModetrue
+            \ShowSolutionstrue
+            \newcommand{\ModeLabel}{Solution Key}
+        }{%
+            \PackageError{assignment}
+            {Invalid AssignmentMode: \AssignmentMode}
+            {Use submission, handout, or key.}%
+        }%
+    }%
+}
+
+\ifKeyMode
+\ifGraded
+\ifShowRubrics
+\PrintRubricstrue
+\fi
+\fi
+\fi
+
+% ----------------------------------------------------------------------------
+% 4. HEADER
+% ----------------------------------------------------------------------------
 \pagestyle{fancy}
 \fancyhf{}
-\renewcommand{\headrulewidth}{0.4pt}
-\fancyhead[L]{\small\coursename}
-\fancyhead[C]{\small\assignmenttitle}
-\fancyhead[R]{\small\studentname}
+\fancyhead[L]{\small\FullCourseName}
+\fancyhead[R]{\small\AssignmentType\ \AssignmentNumber\enspace|\enspace\ModeLabel}
 \fancyfoot[C]{\small\thepage}
-
-% =========================
-% Utilities
-% =========================
-\usepackage{etoolbox}
-
-% =========================
-% Referencing
-% =========================
-\usepackage{apacite}
-
-% =========================
-% Links (load hyperref, then cleveref)
-% =========================
-\usepackage[hidelinks,unicode]{hyperref}
-\usepackage[nameinlink,noabbrev]{cleveref}
-
-% =========================
-% Metadata
-% =========================
-\newcommand{\coursename}{Course Name}
-\newcommand{\assignmenttitle}{Assignment \#}
-\newcommand{\studentname}{Author}
-\newcommand{\studentid}{ID}
-\newcommand{\duedate}{\today}
-
-\hypersetup{
-    pdftitle={\assignmenttitle},
-    pdfauthor={\studentname},
+\renewcommand{\headrulewidth}{0.4pt}
+\fancypagestyle{plain}{%
+    \fancyhf{}
+    \fancyfoot[C]{\small\thepage}
+    \renewcommand{\headrulewidth}{0pt}%
 }
 
-% =========================
-% Math shortcuts
-% =========================
-\DeclarePairedDelimiter\abs{\lvert}{\rvert}
-\DeclarePairedDelimiter\norm{\lVert}{\rVert}
-\DeclarePairedDelimiter\set{\{}{\}}
-\DeclareMathOperator*{\argmin}{arg\,min}
-\DeclareMathOperator*{\argmax}{arg\,max}
-\DeclareMathOperator{\E}{\mathbb{E}}
-\DeclareMathOperator{\Var}{Var}
-\DeclareMathOperator{\Cov}{Cov}
-\DeclareMathOperator{\Prob}{\mathbb{P}}
-\DeclareMathOperator{\plim}{plim}
-\newcommand{\iid}{\stackrel{\text{iid}}{\sim}}
-\newcommand{\R}{\mathbb{R}}
-\newcommand{\1}{\mathbb{1}}
-
-% =========================
-% Theorem-like environments
-% =========================
-\theoremstyle{plain}
-\newtheorem{theorem}{Theorem}[section]
-\newtheorem{proposition}[theorem]{Proposition}
-\newtheorem{lemma}[theorem]{Lemma}
-\newtheorem{corollary}[theorem]{Corollary}
-
-\theoremstyle{definition}
-\newtheorem{definition}[theorem]{Definition}
-\newtheorem{problem}{Problem}[section]
-\newtheorem{question}[problem]{Question}
-% Display problems as 1, 2, 3 (no section prefix), but keep counter subordinate to section
-\renewcommand{\theproblem}{\arabic{problem}}
-% Reset equation counter per problem; override label to include section explicitly
-\numberwithin{equation}{problem}
-\renewcommand{\theequation}{\thesection.\arabic{problem}.\arabic{equation}}
-
-\theoremstyle{remark}
-\newtheorem*{remark}{Remark}
-
-% Solution and answer as left-bar boxes
-\newenvironment{solution}{%
-    \begin{tcolorbox}[solutionbox]%
-    \textit{Solution.}\space\ignorespaces}{%
-\end{tcolorbox}}
-
-\newenvironment{answer}{%
-    \begin{tcolorbox}[solutionbox]%
-    \textit{Answer.}\space\ignorespaces}{%
-\end{tcolorbox}}
-
-% =========================
-% Sub-parts
-% =========================
-% Shorthand keys: use [roman] or [alpha] as optional arg to \begin{parts}
-\SetEnumitemKey{alpha}{label=(\alph*)} % chktex 36
-\SetEnumitemKey{roman}{label=(\roman*)} % chktex 36
-
-\newlist{parts}{enumerate}{1}
-\setlist[parts]{
-    alpha,          % default: (a), (b), (c) — override with [roman]
-    align=left,
-    topsep=4pt,
-    itemsep=2pt,
-    parsep=0pt,
-    leftmargin=2.5em,
-    labelwidth=1.5em,
-    labelsep=0.5em,
+\newcommand{\MakeAssignmentHeader}{%
+    \thispagestyle{plain}%
+    {\small\bfseries\FullCourseName}%
+    \ifdefempty{\AcademicTerm}{}{\hfill{\small\AcademicTerm}}%
+    \par\vspace{0.45em}%
+    {\LARGE\bfseries\AssignmentType}%
+    \ifdefempty{\AssignmentNumber}{}{\ {\LARGE\bfseries\AssignmentNumber}}%
+    \ifKeyMode\enspace{\large\normalfont(Solution Key)}\fi
+    \par
+    \ifdefempty{\AssignmentTopic}{}{%
+        \vspace{0.2em}{\large\AssignmentTopic}\par
+    }%
+    \vspace{0.40em}%
+    {\small
+        \ifSubmissionMode
+        \ifdefempty{\StudentName}{}{\textbf{Name:} \StudentName\qquad}%
+        \ifdefempty{\StudentID}{}{\textbf{ID:} \StudentID\qquad}%
+        \ifdefempty{\SubmissionDate}{}{\textbf{Submitted:} \SubmissionDate}%
+        \else
+        \ifdefempty{\InstructorName}{}{\textbf{Instructor:} \InstructorName\qquad}%
+        \ifdefempty{\DueDate}{}{\textbf{Due:} \DueDate}%
+        \fi
+    }\par
+    \vspace{0.45em}\hrule\vspace{0.40em}%
+    \ifdefempty{\AssignmentInstructions}{}{%
+        {\small\textbf{Instructions.} \AssignmentInstructions\par}%
+        \vspace{0.35em}%
+    }%
 }
 
-\newlist{subparts}{enumerate}{1}
-\setlist[subparts]{
-    roman,          % default: (i), (ii), (iii) — override with [alpha]
-    align=left,
-    topsep=2pt,
-    itemsep=1pt,
-    parsep=0pt,
-    leftmargin=1.5em,
-    labelwidth=1.5em,
-    labelsep=0.5em,
+% ----------------------------------------------------------------------------
+% 5. PROBLEM ENVIRONMENTS
+% ----------------------------------------------------------------------------
+\newcounter{problem}
+\newcounter{totalpoints}
+
+% Usage: \begin{problem}[points][optional title] ... \end{problem}
+% The point count is a nonnegative integer; the default is zero.
+\NewDocumentEnvironment{problem}{O{0} O{}}{%
+    \par\addvspace{0.85\baselineskip}%
+    \refstepcounter{problem}%
+    \ifnum#1<0\relax
+    \PackageError{assignment-standalone}{Problem points cannot be negative}%
+    {Provide a nonnegative integer for points.}%
+    \fi
+    \addtocounter{totalpoints}{#1}%
+    \noindent\textbf{Problem~\theproblem}%
+    \ifstrempty{#2}{}{\textbf{ --- #2}}%
+    \ifGraded
+    \ifnum#1>0\relax\hfill{\small\textbf{(#1 points)}}\fi
+    \fi
+    \par\nobreak\smallskip\ignorespaces
+}{%
+    \par\addvspace{0.5\baselineskip}%
 }
 
-% =========================
-% Title page macro
-% =========================
-\newcommand{\maketitlepage}{%
-    \begin{titlepage}
-        \thispagestyle{empty}
-        \centering
-        \vspace*{4cm}
-        {\Huge \textbf{\coursename}}\par
-        \vspace{0.5cm}
-        {\LARGE \textbf{\assignmenttitle}}\par
-        \vfill
-        {\Large \studentname}\par
-        {\large ID\@: \studentid}\par % chktex 13
-        \vspace{0.3cm}
-        {\large \duedate}\par
-        \vspace*{2cm}
-    \end{titlepage}%
+% Body collection lets hidden solutions and rubrics remain in the same source.
+\NewDocumentEnvironment{solution}{+b}{%
+    \ifShowSolutions
+    \par\smallskip\noindent\textbf{Solution.}\par\nobreak\smallskip
+    #1\par
+    \fi
+}{}
+
+\NewDocumentEnvironment{rubric}{+b}{%
+    \ifPrintRubrics
+    \par\smallskip\noindent\textbf{Grading rubric.}\par\nobreak\smallskip
+    {\small #1\par}%
+    \fi
+}{}
+
+% Optional writing space, used only in handout mode.
+\NewDocumentCommand{\answerspace}{m}{%
+    \ifHandoutMode\par\vspace{#1}\fi
 }
 
-\newtoggle{usedcites}
-\pretocmd{\cite}{\global\toggletrue{usedcites}}{}{}
-\pretocmd{\citet}{\global\toggletrue{usedcites}}{}{}
-\pretocmd{\citep}{\global\toggletrue{usedcites}}{}{}
-
-\AtEndDocument{
-    \iftoggle{usedcites}{
-        \newpage
-        \bibliographystyle{apacite}
-        \bibliography{references}
-    }{}
+% Place after the final problem. Displayed only if graded and ShowTotal is true.
+\NewDocumentCommand{\printtotal}{}{%
+    \ifGraded
+    \ifShowTotal
+    \par\bigskip\hrule\smallskip
+    \noindent{\small\bfseries Total: \arabic{totalpoints} points}\par
+    \fi
+    \fi
 }
 
-% ===================== Document =====================
+% ============================================================================
+% 6. ASSIGNMENT CONTENT — write each question just once
+% ============================================================================
 \begin{document}
+\MakeAssignmentHeader
 
-\maketitlepage{}
+\begin{problem}\label{prob:consumer}
+    A consumer chooses \(x,y>0\) to maximize
+    \[
+        u(x,y)=\log x+\log y
+    \]
+    subject to \(p_x x+p_y y=m\), where \(p_x,p_y,m>0\).
 
-\begin{problem}
-    Let \(f : \R \to \R\) be a differentiable function. Prove that if \(f'(x) = 0\) for all \(x \in \R\),
-    then \(f\) is constant. % chktex 21
+    \begin{enumerate}
+        \item Write the Lagrangian and the first-order conditions.
+        \item Find the optimal consumption bundle \((x^*,y^*)\).
+    \end{enumerate}
 
-    \begin{parts}
-    \item Show that \(f(x) = f(0)\) for all \(x > 0\).
-    \item Extend the argument to all \(x \in \R\). % chktex 21
-    \end{parts}
+    \answerspace{3cm} % Blank working space in handout mode only.
+
+    \begin{solution}
+        Solution
+    \end{solution}
+
+    \begin{rubric}
+        \begin{itemize}[leftmargin=*,nosep]
+            \item Lagrangian and first-order conditions: 4 points.
+            \item Correct demand functions: 4 points.
+            \item Justification of optimality: 2 points.
+        \end{itemize}
+    \end{rubric}
 \end{problem}
 
-\begin{solution}
-    By the Mean Value Theorem, for any \(x > 0\) there exists \(c \in (0, x)\) such that
-    \[
-        f(x) - f(0) = f'(c)(x - 0) = 0.
-    \]
-    Hence \(f(x) = f(0)\) for all \(x > 0\). An identical argument on \((-x, 0)\) covers \(x < 0\).
-\end{solution}
+\begin{problem}[5][Convex combinations]
+    Let \(f\) and \(g\) be convex functions on a convex set
+    \(C\subseteq\mathbb{R}^n\). Prove that
+    \(h=\alpha f+(1-\alpha)g\) is convex for every \(\alpha\in[0,1]\).
 
+    \answerspace{2cm}
+
+    \begin{solution}
+        For any \(x,y\in C\) and \(t\in[0,1]\), convexity and nonnegative
+        weights imply
+        \begin{align*}
+            h(tx+(1-t)y)
+            &\leq \alpha\bigl(tf(x)+(1-t)f(y)\bigr)
+            +(1-\alpha)\bigl(tg(x)+(1-t)g(y)\bigr)\\
+            &=t h(x)+(1-t)h(y).
+        \end{align*}
+        Hence \(h\) is convex.
+    \end{solution}
+
+    \begin{rubric}
+        \begin{itemize}[leftmargin=*,nosep]
+            \item Applies convexity of both \(f\) and \(g\): 3 points.
+            \item Correctly combines the inequalities: 2 points.
+        \end{itemize}
+    \end{rubric}
+\end{problem}
+
+\begin{problem}[10][Consumer choice]\label{prob:consumer}
+    A consumer chooses \(x,y>0\) to maximize
+    \[
+        u(x,y)=\log x+\log y
+    \]
+    subject to \(p_x x+p_y y=m\), where \(p_x,p_y,m>0\).
+
+    \begin{enumerate}
+        \item Write the Lagrangian and the first-order conditions.
+        \item Find the optimal consumption bundle \((x^*,y^*)\).
+    \end{enumerate}
+
+    \answerspace{3cm} % Blank working space in handout mode only.
+
+    \begin{solution}
+        Solution
+    \end{solution}
+
+    \begin{rubric}
+        \begin{itemize}[leftmargin=*,nosep]
+            \item Lagrangian and first-order conditions: 4 points.
+            \item Correct demand functions: 4 points.
+            \item Justification of optimality: 2 points.
+        \end{itemize}
+    \end{rubric}
+\end{problem}
+
+\begin{problem}[5][Convex combinations]
+    Let \(f\) and \(g\) be convex functions on a convex set
+    \(C\subseteq\mathbb{R}^n\). Prove that
+    \(h=\alpha f+(1-\alpha)g\) is convex for every \(\alpha\in[0,1]\).
+
+    \answerspace{2cm}
+
+    \begin{solution}
+        For any \(x,y\in C\) and \(t\in[0,1]\), convexity and nonnegative
+        weights imply
+        \begin{align*}
+            h(tx+(1-t)y)
+            &\leq \alpha\bigl(tf(x)+(1-t)f(y)\bigr)
+            +(1-\alpha)\bigl(tg(x)+(1-t)g(y)\bigr)\\
+            &=t h(x)+(1-t)h(y).
+        \end{align*}
+        Hence \(h\) is convex.
+    \end{solution}
+
+    \begin{rubric}
+        \begin{itemize}[leftmargin=*,nosep]
+            \item Applies convexity of both \(f\) and \(g\): 3 points.
+            \item Correctly combines the inequalities: 2 points.
+        \end{itemize}
+    \end{rubric}
+\end{problem}
+
+%\printtotal
 \end{document}

@@ -1,105 +1,158 @@
+%% ============================================================================
+%% lecture_notes.tex -- lecture-notes template with three versions.
+%%
+%% One source, three outputs, selected by \lecturemode:
+%%   notes       my full notes: proofs, solutions, \todo notes     (default)
+%%   handout     for students: proofs and solutions removed (blank space left
+%%               where a proof was), no \todo, no teaching notes
+%%   instructor  everything in notes plus teaching notes and timings, no \todo
+%%
+%% Select the mode ONE of two ways:
+%%   (a) edit the defaults in section 1 below, or
+%%   (b) override from the command line without touching the file (see Makefile):
+%%         pdflatex "\def\lecturemode{handout}\input{lecture_notes}"
+%%
+%% Each default a mode sets can be overridden individually (section 1):
+%%   \lectureproofs      auto | true | false   keep proof bodies
+%%   \lecturesolutions   auto | true | false   keep solution bodies
+%%   \lectureteach       auto | true | false   show teaching notes and timings
+%%   \lecturetodos       auto | true | false   show \todo notes
+%%   \lecturetitlepage   true | false          course title page
+%%   \lecturetoc         true | false          table of contents
+%%   \lectureproofspace  length left blank in place of a removed proof
+%%
+%% Lectures:   \newlecture[short title]{number}{topic}{date}
+%% In lectures: theorem-like environments, exercise + solution, teachnote,
+%%   \timing{minutes}, \todo{...}; proof as usual.
+%% Do not define macros inside proof, solution or teachnote: their bodies are
+%% discarded in some modes. Labels inside a discarded proof are discarded too,
+%% so do not \cref a label that lives inside a proof.
+%% ============================================================================
 \documentclass[11pt]{article}
 
-% =========================
-% Core layout and language
-% =========================
-\usepackage[margin=1in]{geometry}
-\usepackage[utf8]{inputenc}
+%% ---------------------------------------------------------------------------
+%% 1. Mode and switches (command-line \def takes precedence over these)
+%% ---------------------------------------------------------------------------
+\providecommand{\lecturemode}{notes}
+\providecommand{\lectureproofs}{auto}
+\providecommand{\lecturesolutions}{auto}
+\providecommand{\lectureteach}{auto}
+\providecommand{\lecturetodos}{auto}
+\providecommand{\lecturetitlepage}{true}
+\providecommand{\lecturetoc}{true}
+\providecommand{\lectureproofspace}{6em}
+
+%% ---------------------------------------------------------------------------
+%% 2. Template machinery (no edits needed below until section 3)
+%% ---------------------------------------------------------------------------
+\makeatletter
+\usepackage{etoolbox}
+
+% --- resolve mode defaults, then explicit overrides
+\newif\iflec@proofs
+\newif\iflec@solutions
+\newif\iflec@teach
+\newif\iflec@todos
+\newcommand{\lec@label}{}
+
+\ifdefstring{\lecturemode}{notes}{%
+\lec@proofstrue\lec@solutionstrue\lec@todostrue}{%
+    \ifdefstring{\lecturemode}{handout}{%
+    \def\lec@label{Handout}}{%
+        \ifdefstring{\lecturemode}{instructor}{%
+            \lec@proofstrue\lec@solutionstrue\lec@teachtrue
+        \def\lec@label{Instructor version}}{%
+            \PackageError{lecturenotes}{Unknown mode `\lecturemode'}%
+{Use \string\lecturemode = notes, handout, or instructor.}}}}
+
+% \lec@override{<switch macro>}{<newif stem>}: true/false/auto
+\newcommand{\lec@override}[2]{%
+    \ifdefstring{#1}{true}{\csname lec@#2true\endcsname}{%
+        \ifdefstring{#1}{false}{\csname lec@#2false\endcsname}{%
+            \ifdefstring{#1}{auto}{}{%
+                \PackageError{lecturenotes}{Bad value `#1' for \string#1}%
+{Use true, false, or auto.}}}}}
+\lec@override{\lectureproofs}{proofs}
+\lec@override{\lecturesolutions}{solutions}
+\lec@override{\lectureteach}{teach}
+\lec@override{\lecturetodos}{todos}
+
+% --- packages
+\usepackage[margin=1in,headheight=14pt]{geometry}
 \usepackage[T1]{fontenc}
 \usepackage[english]{babel}
 \usepackage{lmodern}
+\usepackage{microtype}
 \usepackage{parskip}
 \usepackage{float}
-\usepackage{microtype}
-
-% =========================
-% Math
-% =========================
-\usepackage{amsmath,amssymb,amsfonts,amsthm,mathtools,bm}
-
-% =========================
-% Figures, tables, lists
-% =========================
+\usepackage{amsmath,amssymb,amsthm,mathtools,bm}
 \usepackage{graphicx}
 \usepackage{booktabs}
 \usepackage{array}
 \usepackage{enumitem}
 \setlist[itemize]{topsep=2pt,itemsep=2pt,parsep=0pt}
 \setlist[enumerate]{topsep=2pt,itemsep=2pt,parsep=0pt}
-
-% =========================
-% Utilities
-% =========================
-\usepackage{environ}
-\usepackage{etoolbox}
 \usepackage{xcolor}
-\usepackage{datetime}
-\longdate{}
-
-% =========================
-% Header / footer
-% =========================
+\usepackage{comment}
+\usepackage{environ}
+\usepackage[skins,breakable]{tcolorbox}
 \usepackage{fancyhdr}
-\setlength{\headheight}{13pt}
-\pagestyle{fancy}
-\fancyhf{}
-\lhead{\small\coursename}
-\chead{\small\leftmark}
-\rhead{\small\rightmark}
-\cfoot{\thepage}
-\renewcommand{\headrulewidth}{0.4pt}
-
-% =========================
-% Lecture counter
-% =========================
-\newcounter{lecture}
-\numberwithin{equation}{lecture}
-
-% \newlecture{number}{topic}{date}
-\newcommand{\newlecture}[3]{%
-    \setcounter{lecture}{#1}%
-    \phantomsection{}%
-    \ifblank{#2}{%
-        \addcontentsline{toc}{section}{Lecture #1}%
-        \markboth{Lecture #1}{#3}%
-    }{%
-        \addcontentsline{toc}{section}{Lecture #1: #2}%
-        \markboth{Lecture #1: #2}{#3}%
-    }%
-}
-
-% =========================
-% Theorem environments (amsthm)
-% =========================
-\renewcommand{\qedsymbol}{\ensuremath{\blacksquare}}
-
-\theoremstyle{plain}
-\newtheorem{theorem}{Theorem}[lecture]
-\newtheorem{lemma}{Lemma}[lecture]
-\newtheorem{corollary}{Corollary}[lecture]
-\newtheorem{proposition}{Proposition}[lecture]
-
-\theoremstyle{definition}
-\newtheorem{definition}{Definition}[lecture]
-\newtheorem{example}{Example}[lecture]
-
-\theoremstyle{remark}
-\newtheorem{remark}{Remark}[lecture]
-
-% =========================
-% Referencing
-% =========================
-\usepackage{apacite}
-
-% =========================
-% Links (load hyperref, then cleveref)
-% =========================
+\usepackage[round]{natbib}
 \usepackage[hidelinks,unicode]{hyperref}
 \usepackage[nameinlink,noabbrev]{cleveref}
 
-% =========================
-% Course metadata
-% =========================
+% --- header / footer (footer carries the version label when there is one)
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\small\coursename}
+\fancyhead[R]{\small\leftmark}
+\fancyfoot[C]{\thepage}
+\ifdefempty{\lec@label}{}{\fancyfoot[L]{\small\itshape\lec@label}}
+\renewcommand{\headrulewidth}{0.4pt}
+
+% --- proofs: removed in handouts, leaving a blank to be filled in class
+\iflec@proofs\else
+\RenewEnviron{proof}[1][\proofname]{%
+    \par\noindent\textit{#1.}\ {\small\itshape (to be done in class)}%
+\par\vspace{\lectureproofspace}}
+\fi
+
+% --- solutions
+\iflec@solutions
+\newenvironment{solution}{
+\begin{proof}[Solution]}{
+\end{proof}}
+\else
+\excludecomment{solution}
+\fi
+
+% --- teaching notes and timings (instructor version only)
+\iflec@teach
+\newtcolorbox{teachnote}{%
+    enhanced, breakable, colback=orange!6, colframe=orange!60!black,
+    boxrule=0.4pt, arc=1pt, left=6pt, right=6pt, top=3pt, bottom=3pt,
+    title=Teaching note, fonttitle=\bfseries\small, coltitle=black,
+colbacktitle=orange!18}
+\newcommand{\timing}[1]{%
+\par\nopagebreak\noindent{\small\itshape\color{orange!60!black}[#1~min]}\par}
+\else
+\excludecomment{teachnote}
+\newcommand{\timing}[1]{}
+\fi
+
+% --- notes to self: visible in notes; elsewhere hidden, with a build warning
+%     so a leftover note cannot slip into a handout unnoticed
+\newcommand{\todo}[1]{%
+    \iflec@todos
+    {\color{red}[\textbf{TODO:} #1]}%
+    \else
+    \PackageWarning{lecturenotes}{\string\todo\space present but hidden}%
+\fi}
+\makeatother
+
+%% ---------------------------------------------------------------------------
+%% Course metadata (edit in section 3)
+%% ---------------------------------------------------------------------------
 \newcommand{\coursename}{Course Name}
 \newcommand{\coursenumber}{DEPT 000}
 \newcommand{\instructor}{Instructor Name}
@@ -109,12 +162,10 @@
 \hypersetup{
     pdftitle={\coursename\ Lecture Notes},
     pdfauthor={\noteauthor},
-    colorlinks=false
 }
 
-% =========================
-% Math shortcuts
-% =========================
+% >>> shared: math-macros
+\usepackage{dsfont}
 \DeclarePairedDelimiter\abs{\lvert}{\rvert}
 \DeclarePairedDelimiter\norm{\lVert}{\rVert}
 \DeclarePairedDelimiter\set{\{}{\}}
@@ -127,54 +178,146 @@
 \DeclareMathOperator{\plim}{plim}
 \newcommand{\iid}{\stackrel{\text{iid}}{\sim}}
 \newcommand{\R}{\mathbb{R}}
-\newcommand{\1}{\mathbb{1}}
+\newcommand{\1}{\mathds{1}}
+% <<< shared: math-macros
 
-% =========================
-% Auto bibliography
-% =========================
-\newtoggle{usedcites}
-\pretocmd{\cite}{\global\toggletrue{usedcites}}{}{}
-\pretocmd{\citet}{\global\toggletrue{usedcites}}{}{}
-\pretocmd{\citep}{\global\toggletrue{usedcites}}{}{}
+% >>> shared: references
+% Citations are tracked during the current run, so this needs no .aux file from
+% an earlier run. The bibliography is printed only if something was cited, so a
+% document without citations has no empty "References" heading. A cite command
+% that cannot be patched produces a warning instead of failing silently.
+\usepackage{etoolbox}
+\newif\ifhascitations
+\newcommand{\trackcitations}[1]{%
+    \pretocmd{#1}{\global\hascitationstrue}{}%
+    {\PackageWarningNoLine{references}{Could not patch \string#1;
+    citations made with it are not tracked}}%
+}
+\AtBeginDocument{%
+    \trackcitations{\cite}\trackcitations{\nocite}%
+    \trackcitations{\citet}\trackcitations{\citep}%
+    \trackcitations{\citealt}\trackcitations{\citealp}%
+    \trackcitations{\citeauthor}\trackcitations{\citeyear}\trackcitations{\citeyearpar}%
+    \trackcitations{\Citet}\trackcitations{\Citep}%
+    \trackcitations{\Citealt}\trackcitations{\Citealp}\trackcitations{\Citeauthor}%
+}
+% <<< shared: references
 
-\AtEndDocument{
-    \iftoggle{usedcites}{
-        \newpage
-        \bibliographystyle{apacite}
-        \bibliography{references}
-    }
+% Bibliography heading in the style of a lecture heading, with a TOC entry and
+% a running header (natbib's default upper-cases the header and skips the TOC).
+\renewcommand{\bibsection}{%
+    \phantomsection
+    \addcontentsline{toc}{section}{References}%
+    \markboth{References}{}%
+    {\noindent\Large\bfseries References\par}%
+    \vspace{1.2em}%
+}
+
+% Bibliography at the end of the document, only if something was cited
+\AtEndDocument{%
+    \ifhascitations
+    \newpage
+    \bibliographystyle{apalike}%
+    \bibliography{references}%
+    \fi
 }
 
 % =========================
-% Course title page macro
+% Lectures
 % =========================
+\newcounter{lecture}
+\crefname{lecture}{lecture}{lectures}
+\numberwithin{equation}{lecture}
+
+% \newlecture[short title]{number}{topic}{date}
+% Topic and date may be left empty. Starts a new page, typesets the heading,
+% and adds the TOC entry and running header. The running header shows the
+% optional short title if given, else the topic; if that would collide with
+% the course name in the header, it falls back to "Lecture N".
+\newlength{\lecturemarkwidth}
+\newlength{\lectureavailwidth}
+\NewDocumentCommand{\newlecture}{o m m m}{%
+    \clearpage
+    \setcounter{lecture}{\numexpr#2-1\relax}%
+    \refstepcounter{lecture}% resets equation and theorem counters, anchors \label
+    \ifblank{#3}%
+    {\def\lecturetitle{Lecture \thelecture}}%
+    {\def\lecturetitle{Lecture \thelecture: #3}}%
+    \IfNoValueTF{#1}%
+    {\let\lectureheader\lecturetitle}%
+    {\ifblank{#1}%
+        {\def\lectureheader{Lecture \thelecture}}%
+    {\def\lectureheader{Lecture \thelecture: #1}}}%
+    \settowidth{\lecturemarkwidth}{\small\lectureheader}%
+    \settowidth{\lectureavailwidth}{\small\coursename}%
+    \setlength{\lectureavailwidth}{\dimexpr\textwidth-\lectureavailwidth-2em\relax}%
+    \ifdim\lecturemarkwidth>\lectureavailwidth
+    \def\lectureheader{Lecture \thelecture}%
+    \fi
+    \addcontentsline{toc}{section}{\lecturetitle}%
+    \markboth{\lectureheader}{}%
+    {\noindent\Large\bfseries\lecturetitle\par}%
+    \ifblank{#4}{}{\vspace{0.2em}{\noindent\small\itshape #4\par}}%
+    \vspace{1.2em}%
+}
+
+% =========================
+% Theorem environments
+% thmtools (after cleveref) so \cref names environments that share a counter
+% correctly; with plain \newtheorem, \cref{lem:x} would print "theorem 1.2".
+% =========================
+\renewcommand{\qedsymbol}{\ensuremath{\blacksquare}}
+
+\usepackage{thmtools}
+\declaretheorem[name=Theorem, style=plain, numberwithin=lecture]{theorem}
+\declaretheorem[name=Lemma, style=plain, sibling=theorem]{lemma}
+\declaretheorem[name=Corollary, style=plain, sibling=theorem]{corollary}
+\declaretheorem[name=Proposition, style=plain, sibling=theorem]{proposition}
+\declaretheorem[name=Definition, style=definition, sibling=theorem]{definition}
+\declaretheorem[name=Example, style=definition, sibling=theorem]{example}
+\declaretheorem[name=Exercise, style=definition, sibling=theorem]{exercise}
+\declaretheorem[name=Remark, style=remark, sibling=theorem]{remark}
+
+% =========================
+% Course title page and contents (each switchable, see section 1)
+% =========================
+\makeatletter
 \newcommand{\makecoursetitlepage}{%
-    \begin{titlepage}
-        \thispagestyle{empty}
-        \centering
-        \vspace*{4cm}
-        {\LARGE\bfseries \coursename}\par
-        \vspace{0.4cm}
-        {\large \coursenumber}\par
-        \vspace{0.4cm}
-        {\large \semester}\par
-        \vfill
-        {\normalsize \noteauthor}\par
-        \vspace*{2cm}
-    \end{titlepage}%
+    \ifdefstring{\lecturetitlepage}{true}{%
+        \begin{titlepage}
+            \centering
+            \vspace*{4cm}
+            {\LARGE\bfseries \coursename}\par
+            \vspace{0.4cm}
+            {\large \coursenumber}\par
+            \vspace{0.4cm}
+            {\large \semester}\par
+            \ifdefempty{\lec@label}{}{\vspace{0.4cm}{\large\itshape \lec@label}\par}
+            \vfill
+            {\normalsize \noteauthor}\par
+            \vspace*{2cm}
+    \end{titlepage}}{}%
 }
 
-% ===================== Document =====================
+\newcommand{\printcontents}{%
+    \ifdefstring{\lecturetoc}{true}{\thispagestyle{empty}\tableofcontents}{}%
+}
+\makeatother
+
+%% ---------------------------------------------------------------------------
+%% 3. Your course
+%% ---------------------------------------------------------------------------
+\renewcommand{\coursename}{Financial Networks}
+\renewcommand{\coursenumber}{ECON 000}
+\renewcommand{\semester}{Fall 2026}
+\renewcommand{\noteauthor}{Utku}
+
 \begin{document}
 
-\makecoursetitlepage{}
-
-\thispagestyle{empty}
-\tableofcontents
-\clearpage
+\makecoursetitlepage
+\printcontents
 
 \input{lectures/lecture1.tex}
-\newpage
 \input{lectures/lecture2.tex}
 
 \end{document}
